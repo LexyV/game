@@ -1,122 +1,116 @@
-window.onload = function() {
-    function interval(){
-      setInterval(updateCanvas, 33);
-      console.log("interval")
-    }
-//   interval();
-  
-    var canvas = document.getElementById("canvas");
-    var ctx = canvas.getContext("2d");
-    
-    var myObstacles = [];
-    var board = {
-      frames: 0
-    }
-    
-  // astronaut object
-    var astronaut = {
-      x: 200,
-      y: 400,
-      astrWidth: 120,
-      astrHeight: 120,
-      moveUp: function(){
-        this.y -= 25;
-      },
-      moveDown: function(){
-        this.y += 25;
-      },
-      moveLeft: function() {
-        this.x -= 10;
-        console.log("left");
-      },
-      moveRight: function() {
-        this.x += 10;
-        console.log("right");
-      }
-    };
-  
-    function Obstacle(x,y,width,height){
-      this.width = width;
-      this.height = height;
-      this.x = x;
-      this.y = y;
-      this.speedX = 0;
-      this.speedY = 0;
-      this.update = function() {
-        console.log('updating asteroids')
-        var asteroidImg = new Image();
-        asteroidImg.onload = function() {
-          ctx.drawImage(asteroidImg, this.x, this.y, 50, 50);
-          };
-        asteroidImg.src = "images/asteroid.png";  
-      }
-    }
-    // this.newPos = function() {
-    //          this.x += this.speedX;
-    //          this.y += this.speedY;
-    //     }
-  
-  
-  // create astronaut
-    function drawAstronaut(astronaut) {
-       
-      var astroImg = new Image();
-  
-        astroImg.onload = function() {
-        ctx.drawImage(astroImg, astronaut.x, astronaut.y, astronaut.astrWidth, astronaut.astrHeight);
-      };
-      astroImg.src = "images/astronaut.png";  
-    }
-  
-    document.onkeydown = function(e) {
-      switch (e.keyCode) {
-        case 37:
-          astronaut.moveLeft();
-          console.log("left", astronaut);
-          break;
-        case 38:
-          astronaut.moveUp();
-          console.log("up", astronaut);
-          break;
-        case 39:
-          astronaut.moveRight();
-          console.log("right", astronaut);
-          break;
-        case 40:
-          astronaut.moveDown();
-          console.log("down", astronaut);
-          break;
-      }
-      updateCanvas();
-      for (i=0; i<myObstacles.length;i++){
-        myObstacles[i].update();
-      }
-    };
-  
-    function updateCanvas(){
-      ctx.clearRect(0, 0, 1500, 1700);
-      drawAstronaut(astronaut);
-    //   drawAsteroid(asteroid);
-  
-      board.frames ++;
-      if(board.frames % 60 === 1){
-        asteroidX = Math.floor(Math.random() * 400);
-        asteroidY = Math.floor(Math.random() * 400);
-        asteroidWidth = 50;
-        asteroidHeight = 50;
-        myObstacles.push(new Obstacle(asteroidX, asteroidY, asteroidWidth, asteroidHeight));
-        board.frames = 2;
-        console.log(myObstacles);
-      }
-      for (i = 0; i < myObstacles.length; i++) {
-        myObstacles[i].y += 10;
-        myObstacles[i].update();    
-      }
-    }
-    updateCanvas();
-  
-  };
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+var myObstacles = [];
 
+function interval(){
+    setInterval(updateCanvas, 20);
+}
+var frameNo = 0;
+var clearCanvas = () => {
+    ctx.clearRect(0,0,812,580);
+}
+
+var astronaut = {
+    x: 200,
+    y: 400,
+    astrWidth: 120,
+    astrHeight: 120,
+    moveUp: function(){
+        this.y -= 25;
+    },
+    moveDown: function(){
+        this.y += 25;
+    },
+    moveLeft: function() {
+        this.x -= 25;
+        console.log("left");
+    },
+    moveRight: function() {
+        this.x += 25;
+        console.log("right");
+    },
+    update: () => {
+        var astroImg = new Image();
+        astroImg.src = "images/astronaut.png"
+        ctx.drawImage(astroImg, astronaut.x, astronaut.y, astronaut.astrWidth, astronaut.astrHeight)
+    }
+};
+
+function Obstacle(x,y,width,height){
+ this.width = width;
+ this.height = height;
+ this.x = x;
+ this.y = y;
+ this.speedX = 0;
+ this.speedY = 0;
+ this.angle = 0;
+ this.update = function() {
+   var asteroidImg = new Image();
+   asteroidImg.src = "images/asteroid.png";  
+//    asteroidImg.onload = function() {
+        ctx.save();
+        ctx.translate(this.x + 5, this.y + 5);
+        ctx.rotate(this.angle += .01);
+        ctx.drawImage(asteroidImg, this.x, this.y, 50, 50);
+        ctx.restore();
+    // };
+  }
+}
+
+var  everyInterval = ((n) => {
+ if ((frameNo / n) % 1 === 0) {
+   return true
+ }
+ return false
+});
+
+var pushRandObstacle = () => {
+ if (everyInterval(1000) && myObstacles.length < 50) {
+   var asteroidX = Math.floor(Math.random() * 778);
+   var asteroidY = Math.floor(Math.random() * 530);
+//    ctx.rotate(this.angle += .002);
+   var asteroidWidth = 50;
+   var asteroidHeight = 50;
+   myObstacles.push(new Obstacle(asteroidX, asteroidY, asteroidWidth, asteroidHeight));
+ }
+}
+
+var updateObstacles = () => {
+ pushRandObstacle()
+ myObstacles.forEach((elem) => {
+   elem.update();
+
+ });
+}
+
+var updateCanvas = () => {
+ clearCanvas();
+ astronaut.update()
+ updateObstacles();
+ frameNo += 20;
+}
+
+document.onkeydown = function(e) {
+     switch (e.keyCode) {
+       case 37:
+         astronaut.moveLeft();
+         console.log("left", astronaut);
+         break;
+       case 38:
+         astronaut.moveUp();
+         console.log("up", astronaut);
+         break;
+       case 39:
+         astronaut.moveRight();
+         console.log("right", astronaut);
+         break;
+       case 40:
+         astronaut.moveDown();
+         console.log("down", astronaut);
+         break;
+     }
+   };
+interval();
 
 
 
