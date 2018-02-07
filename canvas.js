@@ -7,14 +7,16 @@ function interval(){
 }
 var frameNo = 0;
 var clearCanvas = () => {
-    ctx.clearRect(0,0,812,580);
+    ctx.clearRect(0,0,812,580); 
+    ctx.fillStyle = "white";
+    ctx.fillText("Time: " + count + "s." , 5 , 20); 
 }
 
 var astronaut = {
     x: 200,
     y: 400,
-    astrWidth: 120,
-    astrHeight: 120,
+    astrWidth: 90,
+    astrHeight: 90,
     moveUp: function(){
         this.y -= 25;
     },
@@ -33,7 +35,9 @@ var astronaut = {
         var astroImg = new Image();
         astroImg.src = "images/astronaut.png"
         ctx.drawImage(astroImg, astronaut.x, astronaut.y, astronaut.astrWidth, astronaut.astrHeight)
-    }
+        ctx.strokeStyle= "black" ;
+        ctx.strokeRect(astronaut.x , astronaut.y, 80, 90);
+    },
 };
 
 function Obstacle(x,y,width,height){
@@ -46,15 +50,36 @@ function Obstacle(x,y,width,height){
  this.angle = 0;
  this.update = function() {
    var asteroidImg = new Image();
-   asteroidImg.src = "images/asteroid.png";  
+   asteroidImg.src = "images/asteroid.png"; 
 //    asteroidImg.onload = function() {
         ctx.save();
         ctx.translate(this.x + 5, this.y + 5);
         ctx.rotate(this.angle += .01);
         ctx.drawImage(asteroidImg, this.x, this.y, 50, 50);
+        ctx.strokeRect(this.x, this.y, 50, 50);
         ctx.restore();
     // };
   }
+//     this.collide = function(rectangle) {
+//     // collision detection based on coordinates
+//     var left = this.x;
+//     var right = this.x + (this.width);
+//     var top = this.y;
+//     var bottom = this.y + (this.height);
+//     var rectangleLeft = rectangle.x;
+//     var rectangleRight = rectangle.x + (this.width);
+//     var rectangleTop =rectangle.y;
+//     var rectangleBottom = rectangle.y + (this.height);
+//     var collided = true;
+//     if ((bottom < rectangleTop) ||
+//         (top > rectangleBottom) ||
+//         (right < rectangleLeft) ||
+//         (left > rectangleRight)) {
+//         collided = false;
+        
+//     }
+//     return collided;
+//    }
 }
 
 var  everyInterval = ((n) => {
@@ -65,7 +90,7 @@ var  everyInterval = ((n) => {
 });
 
 var pushRandObstacle = () => {
- if (everyInterval(1000) && myObstacles.length < 50) {
+ if (everyInterval(800) && myObstacles.length < 65) {
    var asteroidX = Math.floor(Math.random() * 778);
    var asteroidY = Math.floor(Math.random() * 530);
 //    ctx.rotate(this.angle += .002);
@@ -75,6 +100,7 @@ var pushRandObstacle = () => {
  }
 }
 
+
 var updateObstacles = () => {
  pushRandObstacle()
  myObstacles.forEach((elem) => {
@@ -83,11 +109,18 @@ var updateObstacles = () => {
  });
 }
 
-var updateCanvas = () => {
+var updateCanvas = () => {   
  clearCanvas();
  astronaut.update()
  updateObstacles();
  frameNo += 20;
+//  for (var i = 0; i < myObstacles.length; i++) {
+//     if (astronaut.collide(myObstacles[i])){
+//          // document.location.reload();
+//         //  document.location.href = "index.html";
+//  //        alert("game over");
+//     }
+// } 
 }
 
 document.onkeydown = function(e) {
@@ -109,8 +142,46 @@ document.onkeydown = function(e) {
          console.log("down", astronaut);
          break;
      }
+    //  if (
+    //     astronaut.x <= (asteroidImg.x + 32)
+    //     && asteroidImg.x <= (astronaut.x + 50)
+    //     && astronaut.y <= (asteroidImg.y + 50)
+    //     && asteroidImg.y <= (astronaut.y + 120)
+    //   ) {
+    //     // ++coinsCaught;
+    //     reset();
+    //   }
    };
+   
 interval();
+var count = 30; // how many seconds the game lasts for - default 30
+var finished = false;
+var counter = function(){
+
+  count = count - 1; // countown by 1 every second
+  // when count reaches 0 clear the timer
+    if (count <= 0)
+    { 
+      // stop the timer
+       clearInterval(counter);
+       // set game to finished
+       finished = true;
+       count = 0;
+    // alert('over')
+    }
+}
+// timer interval is every second (1000ms)
+setInterval(counter, 1000);
+// The main game loop
+var main = function () {
+  // run the update function
+  update(0.02); // do not change
+  // run the render function
+  render();
+  // Request to do this again
+  requestAnimationFrame(main);
+};
+
 
 
 
