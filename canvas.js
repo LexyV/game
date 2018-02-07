@@ -1,142 +1,413 @@
-//create canvas for game display
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
-document.body.appendChild(canvas);
-var astronaut = drawAstronaut();
-// var asteroid;
-// var myObstacles = [];
-// var objects = [];
-// var startTime = Date.now();
-// animate();
-// startGame();
-// updateCanvas();
+window.onload = function() {
+    function interval(){
+      setInterval(updateCanvas, 33);
+      console.log("interval")
+    }
+//   interval();
+  
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+    
+    var myObstacles = [];
+    var board = {
+      frames: 0
+    }
+    
+  // astronaut object
+    var astronaut = {
+      x: 200,
+      y: 400,
+      astrWidth: 120,
+      astrHeight: 120,
+      moveUp: function(){
+        this.y -= 25;
+      },
+      moveDown: function(){
+        this.y += 25;
+      },
+      moveLeft: function() {
+        this.x -= 10;
+        console.log("left");
+      },
+      moveRight: function() {
+        this.x += 10;
+        console.log("right");
+      }
+    };
+  
+    function Obstacle(x,y,width,height){
+      this.width = width;
+      this.height = height;
+      this.x = x;
+      this.y = y;
+      this.speedX = 0;
+      this.speedY = 0;
+      this.update = function() {
+        console.log('updating asteroids')
+        var asteroidImg = new Image();
+        asteroidImg.onload = function() {
+          ctx.drawImage(asteroidImg, this.x, this.y, 50, 50);
+          };
+        asteroidImg.src = "images/asteroid.png";  
+      }
+    }
+    // this.newPos = function() {
+    //          this.x += this.speedX;
+    //          this.y += this.speedY;
+    //     }
+  
+  
+  // create astronaut
+    function drawAstronaut(astronaut) {
+       
+      var astroImg = new Image();
+  
+        astroImg.onload = function() {
+        ctx.drawImage(astroImg, astronaut.x, astronaut.y, astronaut.astrWidth, astronaut.astrHeight);
+      };
+      astroImg.src = "images/astronaut.png";  
+    }
+  
+    document.onkeydown = function(e) {
+      switch (e.keyCode) {
+        case 37:
+          astronaut.moveLeft();
+          console.log("left", astronaut);
+          break;
+        case 38:
+          astronaut.moveUp();
+          console.log("up", astronaut);
+          break;
+        case 39:
+          astronaut.moveRight();
+          console.log("right", astronaut);
+          break;
+        case 40:
+          astronaut.moveDown();
+          console.log("down", astronaut);
+          break;
+      }
+      updateCanvas();
+      for (i=0; i<myObstacles.length;i++){
+        myObstacles[i].update();
+      }
+    };
+  
+    function updateCanvas(){
+      ctx.clearRect(0, 0, 1500, 1700);
+      drawAstronaut(astronaut);
+    //   drawAsteroid(asteroid);
+  
+      board.frames ++;
+      if(board.frames % 60 === 1){
+        asteroidX = Math.floor(Math.random() * 400);
+        asteroidY = Math.floor(Math.random() * 400);
+        asteroidWidth = 50;
+        asteroidHeight = 50;
+        myObstacles.push(new Obstacle(asteroidX, asteroidY, asteroidWidth, asteroidHeight));
+        board.frames = 2;
+        console.log(myObstacles);
+      }
+      for (i = 0; i < myObstacles.length; i++) {
+        myObstacles[i].y += 10;
+        myObstacles[i].update();    
+      }
+    }
+    updateCanvas();
+  
+  };
+
+
+
 
 // window.onload = function() {
-//     document.getElementById("start-button").onclick = function() {
-//       startGame();
+//     function interval(){
+//       setInterval(updateCanvas, 33);
+//       console.log("interval")
+//     }
+// //   interval();
+  
+//     var canvas = document.getElementById("canvas");
+//     var ctx = canvas.getContext("2d");
+    
+//     var myObstacles = [];
+//     var board = {
+//       frames: 0
+//     }
+    
+//   // astronaut object
+//     var astronaut = {
+//       x: 200,
+//       y: 400,
+//       astrWidth: 120,
+//       astrHeight: 120,
+//       moveUp: function(){
+//         this.y -= 25;
+//       },
+//       moveDown: function(){
+//         this.y += 25;
+//       },
+//       moveLeft: function() {
+//         this.x -= 10;
+//         console.log("left");
+//       },
+//       moveRight: function() {
+//         this.x += 10;
+//         console.log("right");
+//       }
 //     };
-function drawAstronaut() {
-    //     //load astronaut image
-    //     // var astroReady = false;
-        var astroImg = new Image();
-        astroImg.src = "images/astronaut.png";
+//     function drawAsteroid(asteroid) {
+       
+//         var asteroidImg = new Image();
+    
+//           asteroidImg.onload = function() {
+//           ctx.drawImage(asteroidImg, 50, 50, 90, 70);
+//         };
+//         asteroidImg.src = "images/asteroid.png";  
+//       }
+//     function Obstacle(x,y,width,height){
+//       this.width = width;
+//       this.height = height;
+//       this.x = Math.floor(Math.random() * 812);
+//       this.y = Math.floor(Math.random() * 580);
+//       this.sprite = drawAsteroid();
+//       this.update = function(){
+//           this.y -= 2;
+//           this.x -= 2;
+//           console.log("hi");
+//       }
+//       this.drawAsteroid=function(){
+//           ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height)
 
-        astroImg.onload = function() {
-    //         //show image
-    //     // astroReady = true;
-           ctx.drawImage(astroImg, 400, 400, 120, 120);
-        }
+//       }
+//     }
+//     //   this.speedX = 0;
+//     //   this.speedY = 0;
+//     //   this.update = function() {
+//     //     console.log('updating asteroids')
+//     //     var asteroidImg = new Image();
+//     //     asteroidImg.onload = function() {
+//     //       ctx.drawImage(asteroidImg, this.x, this.y, this.width, this.height);
+//     //       };
+//     //     asteroidImg.src = "images/asteroid.png";  
+//     //   }
+//     // }
+  
+  
+  
+//   // create astronaut
+//     function drawAstronaut(astronaut) {
+       
+//       var astroImg = new Image();
+  
+//         astroImg.onload = function() {
+//         ctx.drawImage(astroImg, astronaut.x, astronaut.y, astronaut.astrWidth, astronaut.astrHeight);
+//       };
+//       astroImg.src = "images/astronaut.png";  
+//     }
+  
+//     document.onkeydown = function(e) {
+//       switch (e.keyCode) {
+//         case 37:
+//           astronaut.moveLeft();
+//           console.log("left", astronaut);
+//           break;
+//         case 38:
+//           astronaut.moveUp();
+//           console.log("up", astronaut);
+//           break;
+//         case 39:
+//           astronaut.moveRight();
+//           console.log("right", astronaut);
+//           break;
+//         case 40:
+//           astronaut.moveDown();
+//           console.log("down", astronaut);
+//           break;
+//       }
+//       updateCanvas();
+//       for (i=0; i<myObstacles.length;i++){
+//         myObstacles[i].update();
+//       }
+//     };
+  
+//     function updateCanvas(){
+//       ctx.clearRect(0, 0, 1500, 1700);
+//       drawAstronaut(astronaut);
+//     //   drawAsteroid(asteroid);
+  
+//       board.frames ++;
+//       if(board.frames % 60 === 1){
+//         asteroidX = Math.floor(Math.random() * 400);
+//         asteroidY = Math.floor(Math.random() * 400);
+//         asteroidWidth = 100;
+//         asteroidHeight = 100;
+//         myObstacles.push(new Obstacle(asteroidX, asteroidY, asteroidWidth, asteroidHeight));
+//         board.frames = 2;
+//         console.log(myObstacles);
+//       }
+//       for (i = 0; i < myObstacles.length; i++) {
+//         myObstacles[i].y += 10;
+//         myObstacles[i].update();    
+//       }
+//     }
+//     updateCanvas();
+  
+//   };
 
-        return astroImg;
-}
-    function startGame() {
-      myGameArea.myObstacles = [];
-      myGameArea.start();
-      player = new Component(220, 150, "./images/astronaut.png", 150, 100, "player");
-    }
-    var lines = 0;
 
-var myGameArea = {
-    canvas: document.createElement("canvas"),
-    start: function() {
-      this.context = this.canvas.getContext("2d");
-      document.getElementById("canvas").append(this.canvas);
-      this.reqAnimation = window.requestAnimationFrame(updateGameArea);
-    },
-    myObstacles: [],
-    frames: 0,
-    clear: function() {
-      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    },
-    score: function() {
-        points = (Math.floor(this.frames / 5));
-        this.context.font = '20px Verdana';
-        this.context.fillStyle = 'white';
-        this.context.fillText('Score: ' + points, 60, 40);
-      },
-      stop: function() {
-        cancelAnimationFrame(this.reqAnimation);
-        this.gameOver();
-      },
-      gameOver: function() {
-        this.clear();
-        this.drawFinalPoints();
-      },
-      drawFinalPoints: function() {
-        this.context.fillStyle = "black";
-        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        this.context.font = '34px Verdana';
-        this.context.fillStyle = '#870007';
-        this.context.fillText('Game Over!', 100, 250);
-        this.context.fillStyle = 'white';
-        this.context.fillText('Your final score', 70, 300);
-        this.context.fillText(points, 150, 340);
-      }
-    };
-    function Component(width, height, color, x, y, type) {
-    this.width = width;
-    this.height = height;
-    this.type = type;
-    this.x = x;
-    this.y = y;
-    if (this.type == "player") { this.image = new Image(); }
-    this.update = function() {
-      ctx = myGameArea.context;
-      if(this.type == "player"){
-        this.image.src = color;
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-      } else {
-        ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-      }
-    };
-    this.left = function() { return this.x; };
-    this.right = function() { return (this.x + this.width); };
-    this.top = function() { return this.y; };
-    this.bottom = function() { return this.y + (this.height); };
-    this.crashWith = function(obstacle) {
-      return !((player.bottom() < obstacle.top()) ||
-        (player.top() > obstacle.bottom()) ||
-        (player.right() < obstacle.left()) ||
-        (player.left() > obstacle.right()));
-    };
-  }
-  function updateGameArea() {
-    for (i = 0; i < myGameArea.myObstacles.length; i += 1) {
-      if (player.crashWith(myGameArea.myObstacles[i])) {
-        myGameArea.stop();
-        return;
-      }
-    }
-    myGameArea.clear();
-    myGameArea.backgroud();
-    drawObstacles();
-    myGameArea.frames += 1;
-    for (i = 0; i < myGameArea.myObstacles.length; i += 1) {
-      myGameArea.myObstacles[i].y += 1;
-      myGameArea.myObstacles[i].update();
-    }
-    player.update();
-    myGameArea.score();
-    myGameArea.reqAnimation = window.requestAnimationFrame(updateGameArea);
-  }
-  function drawObstacles() {
-    if (myGameArea.frames % 140 === 0) {
-      minWidth = (myGameArea.canvas.width - 80)*0.3;
-      maxWidth = (myGameArea.canvas.width - 80)*0.7;
-      width = minWidth + Math.floor(Math.random()*(maxWidth-minWidth));
-      posX = 40 + (Math.floor(Math.random() * (myGameArea.canvas.width-80-width)));
-      myGameArea.myObstacles.push(new Component(width, 20, "#870007", posX, 0));
-    }
-  }
-  document.onkeydown = function(e) {
-    if (e.keyCode == 39 && player.x < (myGameArea.canvas.width - player.width - 55)) {
-      player.x += 10;
-    }
-    if (e.keyCode == 37 && player.x > 55) {
-      player.x -= 10;
-    }
-  };
+
+
+
+
+// //create canvas for game display
+// var canvas = document.getElementById('canvas');
+// var ctx = canvas.getContext('2d');
+// document.body.appendChild(canvas);
+// var astronaut = drawAstronaut();
+// // var asteroid;
+// var myObstacles = [];
+// // var objects = [];
+// // var startTime = Date.now();
+// // animate();
+// // startGame();
+// // updateCanvas();
+
+// // window.onload = function() {
+// //     document.getElementById("start-button").onclick = function() {
+// //       startGame();
+// //     };
+// function drawAstronaut() {
+//     //     //load astronaut image
+//     //     // var astroReady = false;
+//         var astroImg = new Image();
+//         astroImg.src = "images/astronaut.png";
+
+//         astroImg.onload = function() {
+//     //         //show image
+//     //     // astroReady = true;
+//            ctx.drawImage(astroImg, 400, 400, 120, 120);
+//         }
+
+//         return astroImg;
+// }
+// document.onkeydown = function(e) {
+//     switch (e.keyCode) {
+//     case 38: astroImg.moveUp();    console.log('up',    astroImg); break;
+//     case 40: astroImg.moveDown();  console.log('down',  astroImg); break;
+//     case 37: astroImg.moveLeft();  console.log('left',  astroImg); break;
+//     case 39: astroImg.moveRight(); console.log('right', astroImg); break;
+//     }
+// updateCanvas();
+// }
+//     function startGame() {
+//       myGameArea.myObstacles = [];
+//       myGameArea.start();
+//       player = new Component(220, 150, "./images/astronaut.png", 150, 100, "player");
+//     }
+//     var lines = 0;
+
+// var myGameArea = {
+//     canvas: document.createElement("canvas"),
+//     start: function() {
+//       this.context = this.canvas.getContext("2d");
+//       document.getElementById("canvas").append(this.canvas);
+//       this.reqAnimation = window.requestAnimationFrame(updateGameArea);
+//     },
+//     myObstacles: [],
+//     frames: 0,
+//     clear: function() {
+//       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+//     },
+//     score: function() {
+//         points = (Math.floor(this.frames / 5));
+//         this.context.font = '20px Verdana';
+//         this.context.fillStyle = 'white';
+//         this.context.fillText('Score: ' + points, 60, 40);
+//       },
+//       stop: function() {
+//         cancelAnimationFrame(this.reqAnimation);
+//         this.gameOver();
+//       },
+//       gameOver: function() {
+//         this.clear();
+//         this.drawFinalPoints();
+//       },
+//       drawFinalPoints: function() {
+//         this.context.fillStyle = "black";
+//         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+//         this.context.font = '34px Verdana';
+//         this.context.fillStyle = '#870007';
+//         this.context.fillText('Game Over!', 100, 250);
+//         this.context.fillStyle = 'white';
+//         this.context.fillText('Your final score', 70, 300);
+//         this.context.fillText(points, 150, 340);
+//       }
+//     };
+//     function Component(width, height, color, x, y, type) {
+//     this.width = width;
+//     this.height = height;
+//     this.type = type;
+//     this.x = x;
+//     this.y = y;
+//     if (this.type == "player") { this.image = new Image(); }
+//     this.update = function() {
+//       ctx = myGameArea.context;
+//       if(this.type == "player"){
+//         this.image.src = color;
+//         ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+//       } else {
+//         ctx.fillStyle = color;
+//         ctx.fillRect(this.x, this.y, this.width, this.height);
+//       }
+//     };
+//     this.left = function() { return this.x; };
+//     this.right = function() { return (this.x + this.width); };
+//     this.top = function() { return this.y; };
+//     this.bottom = function() { return this.y + (this.height); };
+//     this.crashWith = function(obstacle) {
+//       return !((player.bottom() < obstacle.top()) ||
+//         (player.top() > obstacle.bottom()) ||
+//         (player.right() < obstacle.left()) ||
+//         (player.left() > obstacle.right()));
+//     };
+//   }
+//   function updateGameArea() {
+//     for (i = 0; i < myGameArea.myObstacles.length; i += 1) {
+//       if (player.crashWith(myGameArea.myObstacles[i])) {
+//         myGameArea.stop();
+//         return;
+//       }
+//     }
+//     myGameArea.clear();
+//     myGameArea.backgroud();
+//     drawObstacles();
+//     myGameArea.frames += 1;
+//     for (i = 0; i < myGameArea.myObstacles.length; i += 1) {
+//       myGameArea.myObstacles[i].y += 1;
+//       myGameArea.myObstacles[i].update();
+//     }
+//     player.update();
+//     myGameArea.score();
+//     myGameArea.reqAnimation = window.requestAnimationFrame(updateGameArea);
+//   }
+//   function drawObstacles() {
+//     if (myGameArea.frames % 140 === 0) {
+//       minWidth = (myGameArea.canvas.width - 80)*0.3;
+//       maxWidth = (myGameArea.canvas.width - 80)*0.7;
+//       width = minWidth + Math.floor(Math.random()*(maxWidth-minWidth));
+//       posX = 40 + (Math.floor(Math.random() * (myGameArea.canvas.width-80-width)));
+//       myGameArea.myObstacles.push(new Component(width, 20, "#870007", posX, 0));
+//     }
+//   }
+// //   document.onkeydown = function(e) {
+// //     if (e.keyCode == 39 && player.x < (myGameArea.canvas.width - player.width - 55)) {
+// //       player.x += 10;
+// //     }
+// //     if (e.keyCode == 37 && player.x > 55) {
+// //       player.x -= 10;
+// //     }
+// //   };
 
 
 
@@ -224,15 +495,6 @@ var myGameArea = {
 //     ctx.clearRect(0,0,812,550);
 // }
 
-// document.onkeydown = function(e) {
-//     switch (e.keyCode) {
-//     case 38: astronaut.moveUp();    console.log('up',    astronaut); break;
-//     case 40: astronaut.moveDown();  console.log('down',  astronaut); break;
-//     case 37: astronaut.moveLeft();  console.log('left',  astronaut); break;
-//     case 39: astronaut.moveRight(); console.log('right', astronaut); break;
-//     }
-// updateCanvas();
-// }
 
 // var gameZone = {
 //     canvas : document.createElement("canvas"),
@@ -286,16 +548,16 @@ var myGameArea = {
 //update objects - player  
 // var update = function () {
 //     if (38 in keysDown) { //holding up key
-//       astronaut.y -= astronaut.speed;
+//       astroImg.y -= astroImg.speed;
 //     }
 //     if (40 in keysDown) { //holding down key
-//       astronaut.y += astronaut.speed;
+//       astroImg.y += astroImg.speed;
 //     }
 //     if (37 in keysDown) { //holding left key
-//         astronaut.x -= astronaut.speed;
+//         astroImg.x -= astroImg.speed;
 //     }
 //     if (39 in keysDown) { //holding right key
-//         astronaut.x += astronaut.speed;
+//         astroImg.x += astroImg.speed;
 //     }
     //check if they hit each other
     // if (
@@ -357,12 +619,7 @@ var myGameArea = {
 //   //do this again
 //   requestAnimationFrame(main);
 // };
-// // Cross-browser support for requestAnimationFrame
-// // var w = window;
-// // requestAnimationFrame = w.requestAnimationFrame || w.webkitRequestAnimationFrame || w.msRequestAnimationFrame || w.mozRequestAnimationFrame;
-// // // Let's play this game!
-// reset();
-// main();
+
 
     
 // var asteroid = {
