@@ -38,6 +38,8 @@ h1{
   text-transform: uppercase;
   text-align: center;
   color: red;
+  padding-top: 30px;
+  padding-bottom: 50px;
 }
 h2{
   color: red;
@@ -57,7 +59,7 @@ a {
   color: black;
 }
 p{
-  font-size: 20px;
+  font-size: 25px;
   color: red;
 }
 .intro{
@@ -66,9 +68,46 @@ p{
   width: 380px;
 }
 .asteroid{
-  height :30px;
+  height: 70px;
+  padding-top: 30px;
 
 }
-.box{
-  /* padding-bottom: 500px; */
+.container{
+  display: flex;
+  justify-content: space-around;
+}
+.keys{
+  height: 70px;
+  width: 100px;
+  padding-top: 30px;
+}
+.intro2{
+  border: 2px solid red;
+  border-style: dotted;
+  width: 380px;
+  float: right;
+}
+.exit{
+  color: red;
+  font-size: 30px;
+}
+.alarm{
+  height: 65px;
+  width: 75px;
+  padding-top: 25px;
+}
+#timer{
+  /* border: 2px solid red; */
+}
+.spaceship{
+  height: 400px;
+  padding-bottom: 20px;
+}
+.ship{
+  height: 80px;
+  padding-top: 25px;
+}
+.container2{
+  display: flex;
+  justify-content: center;
 }

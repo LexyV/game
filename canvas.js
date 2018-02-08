@@ -142,6 +142,9 @@ var seconds = 30;
 var counter = function (){
     seconds--;
     timerElem.innerHTML =("Time Remaining: " + seconds);
+    if(seconds === 0){
+        document.location.href = "youWin.html";
+    }
 }
 
 // timer interval is every second (1000ms)
