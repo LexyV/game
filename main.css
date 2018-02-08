@@ -1,6 +1,9 @@
 body{
   text-align: center;
-  background-color: black;
+  background-image: url("./images/O9Vbk.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* background-color: black; */
 }
 /* .start-btn {
     border: 0;
@@ -13,7 +16,7 @@ body{
   } */
 
   .start-btn {
-    font-size: 20px;
+    font-size: 30px;
     background-color: red;
     color: white;
     padding: 10px 20px;
@@ -31,10 +34,15 @@ body{
 
 }
 h1{
-  font-size: 30px;
+  font-size: 50px;
   text-transform: uppercase;
   text-align: center;
   color: red;
+}
+h2{
+  color: red;
+  position: relative;
+
 }
 
 canvas {
@@ -47,4 +55,20 @@ canvas {
 a {
   text-decoration: none;
   color: black;
+}
+p{
+  font-size: 20px;
+  color: red;
+}
+.intro{
+  border: 2px solid red;
+  border-style: dotted;
+  width: 380px;
+}
+.asteroid{
+  height :30px;
+
+}
+.box{
+  /* padding-bottom: 500px; */
 }
