@@ -1,23 +1,17 @@
+*{
+  font-family: Georgia;
+}
+
 body{
   text-align: center;
-  background-image: url("./images/O9Vbk.gif");
+  background-image: url("./images/Jupiter.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-  /* background-color: black; */
 }
-/* .start-btn {
-    border: 0;
-    box-shadow: 0;
-    background: #00F4FF;
-    color: black;
-    padding: 20px 40px;
-    font-size: 30px;
-    border-radius: 5px;
-  } */
 
   .start-btn {
     font-size: 30px;
-    background-color: red;
+    background-color: rgb(221, 142, 208);
     color: white;
     padding: 10px 20px;
     border: 0;
@@ -25,88 +19,104 @@ body{
     border-radius: 5px;
     margin-bottom: 20px;
   }
-/* .space{
- text-align: center;
-} */
-.size {
-  height: 390px;
-  margin: 0 auto;
+  .start-btn a{
+    color: white
+  }
 
+.size {
+  height: 480px;
 }
+
 h1{
   font-size: 50px;
   text-transform: uppercase;
   text-align: center;
-  color: red;
+  color: rgb(221, 142, 208);
   padding-top: 30px;
   padding-bottom: 50px;
+  text-shadow: 2px ;
 }
-h2{
-  color: red;
-  position: relative;
 
+h2{
+  color: white;
+  position: relative;
 }
 
 canvas {
-  border: 2px solid red;
-  background-image: url("../game/images/background.gif");
+  border: 2px solid rgb(221, 142, 208);
+  background-image: url("./images/O9Vbk.gif");
   background-position: 25% 25%;
   background-repeat: no-repeat;
   background-size: 813px 581px;
 }
+
 a {
   text-decoration: none;
   color: black;
 }
+
 p{
   font-size: 25px;
-  color: red;
+  color: white;
+  opacity: 1.0;
 }
+
 .intro{
-  border: 2px solid red;
+  border: 2px solid white;
+  border-radius: 30px;
   border-style: dotted;
   width: 380px;
+  background-color:  rgb(221, 142, 208);
+  opacity: 0.8;
 }
+
 .asteroid{
   height: 70px;
   padding-top: 30px;
-
 }
+
 .container{
   display: flex;
   justify-content: space-around;
 }
+
 .keys{
   height: 70px;
   width: 100px;
   padding-top: 30px;
 }
+
 .intro2{
-  border: 2px solid red;
+  border: 2px solid white;
   border-style: dotted;
+  border-radius: 30px;
   width: 380px;
   float: right;
+  background-color: rgb(221, 142, 208);
+  opacity: 0.7;
 }
+
 .exit{
-  color: red;
+  color: white;
   font-size: 30px;
 }
+
 .alarm{
   height: 65px;
   width: 75px;
   padding-top: 25px;
 }
-#timer{
-  /* border: 2px solid red; */
-}
+
 .spaceship{
   height: 400px;
   padding-bottom: 20px;
 }
+
 .ship{
   height: 80px;
   padding-top: 25px;
 }
+
 .container2{
   display: flex;
   justify-content: center;

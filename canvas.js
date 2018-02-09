@@ -13,8 +13,6 @@ function interval(){
 }
 var clearCanvas = () => {
     ctx.clearRect(0,0,812,580); 
-    // ctx.fillStyle = "white";
-    // ctx.fillText("Time: " + count + "s." , 5 , 20); 
 }
 
 var astronaut = {
@@ -30,16 +28,12 @@ var astronaut = {
     },
     moveLeft: function() {
         this.x -= 35;
-        // console.log("left");
     },
     moveRight: function() {
         this.x += 35;
-        // console.log("right");
     },
     update: () => {
         ctx.drawImage(astroImg, astronaut.x, astronaut.y, astronaut.width, astronaut.height)
-        // ctx.strokeStyle= "white" ;
-        // ctx.strokeRect(astronaut.x , astronaut.y, 80, 90);
     },
 };
 
@@ -85,7 +79,6 @@ function Obstacle(x,y,width,height){
         collided = false;
         
     }
-    // --asteroidsHit;
     return collided; 
    }
 }
@@ -103,7 +96,6 @@ var pushRandObstacle = () => {
  if (everyInterval(800) && myObstacles.length < 100) {
    var asteroidX = Math.floor(Math.random() * 778);
    var asteroidY = Math.floor(Math.random() * 530);
-//    ctx.rotate(this.angle += .002);
    var asteroidWidth = 50;
    var asteroidHeight = 50;
    myObstacles.push(new Obstacle(asteroidX, asteroidY, asteroidWidth, asteroidHeight));
@@ -128,11 +120,8 @@ var updateCanvas = () => {
     myObstacles.forEach((elem) => {
         elem.update();
         if(elem.collide(astronaut)) {
-            // asteroidsHit--;
             document.location.reload();
             document.location.href = "gameOver.html";
-            // alert('Game Over')
-            // console.log("hi");
         }
         
     }); 
@@ -151,11 +140,11 @@ var counter = function (){
 setInterval(counter, 1000);
 // The main game loop
 var main = function () {
-//   // run the update function
+// run the update function
   update(0.02); // do not change
-//   // run the render function
+// run the render function
   render();
-//   // Request to do this again
+// Request to do this again
   requestAnimationFrame(main);
 // };
 }
@@ -165,19 +154,15 @@ document.onkeydown = function(e) {
      switch (e.keyCode) {
        case 37:
          astronaut.moveLeft();
-        //  console.log("left", astronaut);
          break;
        case 38:
          astronaut.moveUp();
-        //  console.log("up", astronaut);
          break;
        case 39:
          astronaut.moveRight();
-        //  console.log("right", astronaut);
          break;
        case 40:
          astronaut.moveDown();
-        //  console.log("down", astronaut);
          break;
      }
 
